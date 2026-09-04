@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>칠순(고희) 맞이 대가족 행사 및 여행 기획안</title>
+
+    <!-- 검색엔진 노출 방지 -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- 카카오톡 / SNS 공유용 Open Graph 태그 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="칠순(고희) 맞이 대가족 여행 & 행사 기획안">
+    <meta property="og:description" content="어른 6명, 유아 3명을 위한 맞춤 식당, 리조트, 추천 일정 안내">
+    <meta property="og:image" content="https://사용자_도메인_주소/thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <style>
+        :root {
+            --primary-color: #7a2021;
+            --secondary-color: #b8860b;
+            --bg-color: #fcfbfa;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --accent-bg: #fdf8f3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #7a2021 0%, #4a1213 100%);
+            color: #ffffff;
+            padding: 36px 28px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 20px rgba(122, 32, 33, 0.15);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .summary-card {
+            background-color: var(--accent-bg);
+            border: 1px solid #f6e0c8;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .summary-card h2 {
+            font-size: 17px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .summary-item {
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            border: 1px solid #ebd4be;
+        }
+
+        .summary-item strong {
+            color: var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin: 36px 0 20px 0;
+            font-weight: 700;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background-color: #edf2f7;
+        }
+
+        .card-body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            color: #1a202c;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card h3 .location {
+            font-size: 12px;
+            font-weight: normal;
+            color: var(--text-muted);
+            background: #edf2f7;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            width: fit-content;
+        }
+
+        .tag-feature {
+            background-color: #feebc8;
+            color: #9c4221;
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 12px;
+        }
+
+        .card ul li {
+            position: relative;
+            padding-left: 18px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .card ul li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .sub-facilities {
+            margin-top: 8px;
+            margin-bottom: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .sub-facilities-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 6px;
+        }
+
+        /* 비용 및 운영시간 정보 박스 추가 */
+        .info-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: auto;
+            margin-bottom: 14px;
+            font-size: 13px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            color: #4a5568;
+            margin-bottom: 4px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 14px;
+            background-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-link:hover {
+            background-color: #5a1718;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #7a2021;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+
+        tr:not(:last-child) td {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (min-width: 640px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>칠순(고희) 맞이 대가족 행사 및 여행 기획안</h1>
+        <p>어른 6명 & 유아 3명 (총 9명) 대가족을 위한 이미지·비용·링크 통합 플랜</p>
+    </header>
+
+    <section class="summary-card">
+        <h2>📌 대가족 행사 핵심 고려사항</h2>
+        <div class="summary-grid">
+            <div class="summary-item"><strong>1. 공간 확보</strong>: 독립된 룸 / 독채 (아이들 소음 부담 최소화)</div>
+            <div class="summary-item"><strong>2. 동선 최적화</strong>: 어르신·유아 체력 고려 이동 최소화</div>
+            <div class="summary-item"><strong>3. 다양한 메뉴</strong>: 정갈한 한식 코스 및 유아 친화 메뉴</div>
+            <div class="summary-item"><strong>4. 추억 남기기</strong>: 삼대 가족 기념사진 & 이벤트 용이성</div>
+        </div>
+    </section>
+
+    <!-- 카테고리 1 -->
+    <h2 class="section-title">1. 근사한 식사 (프라이빗 룸 중심)</h2>
+    <div class="card-grid">
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=600&q=80" alt="필경재">
+            <div class="card-body">
+                <h3>필경재 <span class="location">서울 강남구</span></h3>
+                <span class="tag tag-feature">500년 역사 궁중 한정식</span>
+                <ul>
+                    <li>완벽히 분리된 단독 룸에서 감사패 증정 및 행사 진행 용이</li>
+                    <li>정갈하고 품격 있는 궁중 한식 코스로 어르신 만족도 우수</li>
+                    <li>고즈넉한 한옥 정원을 배경으로 삼대 가족사진 촬영 가능</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 점심 12:00~15:00 / 저녁 18:00~22:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 코스 1인당 약 10만 원 ~ 28만 원 (룸 예약제)</div>
+                </div>
+                <a href="http://www.philkyungjae.co.kr" target="_blank" rel="noopener noreferrer" class="btn-link">필경재 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80" alt="삼청각">
+            <div class="card-body">
+                <h3>삼청각 <span class="location">서울 성북구</span></h3>
+                <span class="tag tag-feature">북악산 자연 속 고급 한옥</span>
+                <ul>
+                    <li>수려한 자연경관과 한옥 분위기가 어우러진 프라이빗 룸</li>
+                    <li>아이들이 답답해할 때 안전하게 거닐 수 있는 넓은 야외 마당</li>
+                    <li>가족 전용 공간에서 여유로운 식사 연출 가능</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 점심 12:00~15:00 / 저녁 18:00~21:30</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 한정식 코스 1인당 약 9만 원 ~ 25만 원</div>
+                </div>
+                <a href="https://korean.visitseoul.net/area/%EC%82%BC%EC%B2%AD%EA%B0%81/KOP007290" target="_blank" rel="noopener noreferrer" class="btn-link">삼청각 안내 정보 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=600&q=80" alt="석파랑">
+            <div class="card-body">
+                <h3>석파랑 <span class="location">서울 종로구</span></h3>
+                <span class="tag tag-feature">흥선대원군 별장 역사 고택</span>
+                <ul>
+                    <li>울창한 숲과 전통 건축 양식이 어우러진 차분한 환경</li>
+                    <li>독립 룸 제공으로 타인의 방해 없이 가족만의 오붓한 시간</li>
+                    <li>궁중 음식의 정수를 느낄 수 있는 세심한 차림상</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 점심 12:00~15:00 / 저녁 18:00~22:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 한정식 코스 1인당 약 11만 원 ~ 25만 원</div>
+                </div>
+                <a href="http://seokparang.co.kr" target="_blank" rel="noopener noreferrer" class="btn-link">석파랑 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="서울신라호텔 더 파크뷰">
+            <div class="card-body">
+                <h3>서울신라호텔 더 파크뷰 <span class="location">서울 중구</span></h3>
+                <span class="tag tag-feature">5성급 최고급 뷔페</span>
+                <ul>
+                    <li>어른들을 위한 고급 요리(대게, 양갈비)와 유아용 디저트 완벽 제공</li>
+                    <li>프라이빗 룸 예약 시 유아 동반에도 쾌적하고 품격 있는 진행</li>
+                    <li>식성 차이가 큰 대가족에게 호불호 없는 최고의 선택지</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 저녁 1부 17:30~19:30 / 2부 20:00~22:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 성인 1인 약 18.5만~19.8만 원 / 소인 약 9.5만 원</div>
+                </div>
+                <a href="https://www.shilla.net/seoul/dining/viewDining.do?contId=PAR&lang=ko" target="_blank" rel="noopener noreferrer" class="btn-link">더 파크뷰 예약 및 정보 🔗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 카테고리 2 -->
+    <h2 class="section-title">2. 국내 여행 & 리조트 (동선 최적화 & 대가족 숙소)</h2>
+    <div class="card-grid">
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80" alt="소노펠리체 비발디파크">
+            <div class="card-body">
+                <h3>소노펠리체 비발디파크 <span class="location">강원 홍천</span></h3>
+                <span class="tag tag-feature">올인원 대형 프리미엄 리조트</span>
+                <ul>
+                    <li>9명이 머물기에 넉넉한 다인용 대형 객실 보유</li>
+                    <li>유모차 이동이 편리한 평지 산책로 조성</li>
+                </ul>
+                <div class="sub-facilities">
+                    <div class="sub-facilities-title">💡 주요 연계 시설</div>
+                    <ul>
+                        <li><strong>더 엠브로시아</strong>: 파노라마 뷰 카페</li>
+                        <li><strong>라 마티나</strong>: 퀄리티 높은 조식 뷔페</li>
+                    </ul>
+                </div>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 체크인 15:00 / 체크아웃 11:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 대형 스위트 1박 약 35만 원 ~ 65만 원</div>
+                </div>
+                <a href="https://www.sonohotelsresorts.com/felice_vp" target="_blank" rel="noopener noreferrer" class="btn-link">소노펠리체 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="아난티 코드">
+            <div class="card-body">
+                <h3>아난티 코드 <span class="location">경기 가평</span></h3>
+                <span class="tag tag-feature">숲속 프라이빗 힐링 휴양</span>
+                <ul>
+                    <li>서울 근교 울창한 숲속에 위치하여 조용하고 쾌적한 환경</li>
+                    <li>단지 내 키즈 온수풀(워터하우스) 보유로 유아 물놀이 최적</li>
+                    <li>어르신들도 피로감 없이 자연 속에서 휴식 가능</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 체크인 15:00 / 체크아웃 11:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 펜트하우스 1박 약 65만 원 ~ 110만 원</div>
+                </div>
+                <a href="https://ananti.kr/ko/chord" target="_blank" rel="noopener noreferrer" class="btn-link">아난티 코드 안내 페이지 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="곤지암리조트 화담숲">
+            <div class="card-body">
+                <h3>곤지암리조트 & 화담숲 <span class="location">경기 광주</span></h3>
+                <span class="tag tag-feature">수목원 연계 패밀리 리조트</span>
+                <ul>
+                    <li>서울 1시간 이내 거리로 장거리 이동 부담 감소</li>
+                    <li>콘도형 대형 스위트 객실로 대가족 투숙 용이</li>
+                    <li><strong>화담숲 모노레일</strong> 이용 시 어르신도 무리 없이 수목원 관람</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 화담숲 09:00~18:00 / 리조트 15:00 입실</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 숙박 1박 약 30만~50만 원 / 화담숲 입장료 1.1만 원</div>
+                </div>
+                <a href="https://www.hwadamsup.com" target="_blank" rel="noopener noreferrer" class="btn-link">화담숲 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="아난티 코브">
+            <div class="card-body">
+                <h3>아난티 코브 <span class="location">부산 기장</span></h3>
+                <span class="tag tag-feature">탁 트인 남해 오션뷰 펜트하우스</span>
+                <ul>
+                    <li>압도적인 바다 전경을 자랑하는 고급 레지던스</li>
+                    <li>해안 산책로와 하이엔드 다이닝이 하나로 연결</li>
+                    <li>특별하고 럭셔리한 해변 휴양을 원할 때 적합</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 체크인 15:00 / 체크아웃 11:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 레지던스 1박 약 70만 원 ~ 130만 원</div>
+                </div>
+                <a href="https://ananti.kr/ko/cove" target="_blank" rel="noopener noreferrer" class="btn-link">아난티 코브 안내 페이지 🔗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 카테고리 3 -->
+    <h2 class="section-title">3. 도심 호캉스 & 특별한 이벤트</h2>
+    <div class="card-grid">
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80" alt="파라다이스시티">
+            <div class="card-body">
+                <h3>파라다이스시티 <span class="location">인천 영종도</span></h3>
+                <span class="tag tag-feature">실내 복합 엔터테인먼트 리조트</span>
+                <ul>
+                    <li>날씨 걱정 없는 완전 실내 동선으로 이동 편의성 극대화</li>
+                    <li><strong>원더박스</strong>: 밤의 카니발 콘셉트 실내 테마파크 (유아 만족도 최고)</li>
+                    <li><strong>파라다이스 플라자</strong>: 유모차 산책 및 단체 사진 촬영 광장</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 원더박스 11:00~19:00 / 호텔 15:00 입실</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 객실 1박 약 40만~80만 원 / 원더박스 약 2.8만 원</div>
+                </div>
+                <a href="https://www.p-city.com" target="_blank" rel="noopener noreferrer" class="btn-link">파라다이스시티 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=600&q=80" alt="오크우드 프리미엄 코엑스">
+            <div class="card-body">
+                <h3>오크우드 프리미엄 코엑스 <span class="location">서울 강남구</span></h3>
+                <span class="tag tag-feature">대형 레지던스 & 몰 직결</span>
+                <ul>
+                    <li>넓은 거실/주방으로 객실 내 칠순 상차림 및 케이터링 가능</li>
+                    <li>코엑스몰, 아쿠아리움과 직결되어 유아 실내 나들이 용이</li>
+                    <li>호텔 내 <strong>오크 레스토랑</strong>에서 품격 있는 식사 가능</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 체크인 15:00 / 체크아웃 11:00</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 2~3베드룸 스위트 1박 약 50만 원 ~ 90만 원</div>
+                </div>
+                <a href="http://www.oakwoodpremier.co.kr" target="_blank" rel="noopener noreferrer" class="btn-link">오크우드 코엑스 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=600&q=80" alt="골든블루마리나">
+            <div class="card-body">
+                <h3>골든블루마리나 <span class="location">서울 반포 한강공원</span></h3>
+                <span class="tag tag-feature">프라이빗 럭셔리 요트 대관</span>
+                <ul>
+                    <li>우리 가족만 단독 탑승하여 남 눈치 보지 않고 안전하게 한강 감상</li>
+                    <li>일몰/야경 시간대 탑승 시 잊지 못할 칠순 이벤트 연출</li>
+                    <li>어르신께 색다른 경험을 선물하기 좋은 코스</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 14:00~22:00 (사전 예약제, 1시간 단위)</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 전체 단독 차터(1시간) 약 30만 원 ~ 60만 원</div>
+                </div>
+                <a href="https://www.gbboat.com" target="_blank" rel="noopener noreferrer" class="btn-link">골든블루마리나 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <img class="card-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="다온재">
+            <div class="card-body">
+                <h3>다온재 & 이다한옥 <span class="location">서울 북촌 / 성북동</span></h3>
+                <span class="tag tag-feature">한옥 가족 화보 스튜디오</span>
+                <ul>
+                    <li>대가족 한복 대여부터 스타일링까지 일괄 제공</li>
+                    <li>단독 촬영 진행으로 아이들도 편안하게 촬영 임할 수 있음</li>
+                    <li>삼대가 차려입은 소중한 칠순 가족사진 완성</li>
+                </ul>
+                <div class="info-box">
+                    <div class="info-item"><span class="info-label">⏱️ 이용시간:</span> 10:00~18:00 (100% 사전 예약제)</div>
+                    <div class="info-item"><span class="info-label">💵 예상비용:</span> 대가족 촬영 상품 약 80만 원 ~ 150만 원 선</div>
+                </div>
+                <a href="https://www.daonjae.com" target="_blank" rel="noopener noreferrer" class="btn-link">다온재 공식 웹사이트 🔗</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 추천 일정 조합 -->
+    <h2 class="section-title">4. 추천 일정 조합 예시</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>구분</th>
+                <th>추천 구성</th>
+                <th>주요 특징</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>A. 당일 알찬 코스</strong></td>
+                <td>한옥 스튜디오 스냅 촬영 → 한정식 단독 룸 식사 (필경재/삼청각)</td>
+                <td>체력 소모를 최소화하고 기념사진과 정갈한 식사에 집중하는 코스</td>
+            </tr>
+            <tr>
+                <td><strong>B. 1박 2일 근교 힐링</strong></td>
+                <td>곤지암 스위트룸 1박 → 화담숲 모노레일 관람 → 근교 프라이빗 다이닝</td>
+                <td>자연 속 휴식과 유아들의 활동성을 동시에 충족하는 가족 친화 코스</td>
+            </tr>
+            <tr>
+                <td><strong>C. 도심 프리미엄 호캉스</strong></td>
+                <td>파라다이스시티/오크우드 1박 → 뷔페/룸 다이닝 → 한강 요트 or 원더박스</td>
+                <td>이동 스트레스 제로, 다채로운 놀거리와 럭셔리한 분위기 연출</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>칠순(고희) 맞이 대가족 행사 기획안 • 어른 6명 / 유아 3명 맞춤</p>
+    </footer>
+</div>
+
+</body>
+</html>
