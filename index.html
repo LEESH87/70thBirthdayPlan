@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1박 2일 강원도 가족여행 일정표 & 지도</title>
+
+    <!-- 검색엔진 노출 방지 -->
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- 카카오톡 / SNS 공유용 Open Graph 태그 -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="소노펠리체 델피노 1박 2일 가족여행">
+    <meta property="og:description" content="양양·속초·고성 1박 2일 가족여행 추천 일정 안내">
+    <meta property="og:image" content="https://leesh87.github.io/70thBirthdayPlan/thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Leaflet 지도 CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --badge-menu: #fffbe3;
+            --badge-menu-text: #b45309;
+            --badge-time: #f0fdf4;
+            --badge-time-text: #15803d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .header h1 { margin: 0 0 6px 0; font-size: 1.5rem; }
+        .header p { margin: 0; opacity: 0.9; font-size: 0.85rem; }
+
+        /* Main Layout */
+        .layout-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .timeline-panel {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .map-panel {
+            flex: 1;
+            position: sticky;
+            top: 16px;
+            height: calc(100vh - 32px);
+            min-height: 480px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .map-header {
+            background: #ffffff;
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            font-weight: bold;
+            font-size: 0.88rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        #map {
+            flex: 1;
+            width: 100%;
+            min-height: 300px;
+            z-index: 1;
+        }
+
+        /* Timeline Styling */
+        .day-section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .day-title {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 18px;
+            border-left: 3px solid #cbd5e1;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+            padding-left: 12px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            border: 3px solid white;
+        }
+
+        .time { font-weight: 700; color: #64748b; font-size: 0.85rem; }
+
+        .place-header {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 4px 0 8px 0;
+        }
+
+        .place-name { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tag-stay { background: #e0e7ff; color: #3730a3; }
+        .tag-food { background: #fef3c7; color: #92400e; }
+        .tag-spot { background: #dcfce7; color: #166534; }
+        .tag-cafe { background: #fce7f3; color: #9d174d; }
+
+        .details-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 0.88rem;
+            margin-bottom: 10px;
+        }
+
+        .info-row { margin-bottom: 6px; }
+        .info-row:last-child { margin-bottom: 0; }
+
+        .badge-menu {
+            display: inline-block;
+            background-color: var(--badge-menu);
+            color: var(--badge-menu-text);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            margin-right: 4px;
+        }
+
+        .badge-time {
+            display: inline-block;
+            background-color: var(--badge-time);
+            color: var(--badge-time-text);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.78rem;
+            margin-right: 4px;
+        }
+
+        .nav-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.85; }
+        .btn-focus { background-color: #2563eb; color: white; }
+        .btn-naver { background-color: #03cf5d; color: white; }
+
+        .map-legend {
+            display: flex;
+            gap: 6px;
+            font-size: 0.72rem;
+        }
+        .legend-item { display: flex; align-items: center; gap: 3px; }
+        .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        /* Responsive Layout for Mobile */
+        @media (max-width: 900px) {
+            body { padding: 10px; }
+            .layout-container { flex-direction: column; }
+            
+            .map-panel {
+                order: -1; /* 모바일에서 지도를 상단에 배치 */
+                position: sticky;
+                top: 8px;
+                width: 100%;
+                height: 320px;
+                min-height: 320px;
+                margin-bottom: 16px;
+            }
+
+            #map {
+                height: 270px;
+                min-height: 270px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🌿 소노펠리체 델피노 1박 2일 가족여행</h1>
+    <p>09/27(일) ~ 09/28(월) | 양양 낙산사 & 속초·고성 통합 일정 및 지도</p>
+</div>
+
+<div class="layout-container">
+    <!-- RIGHT PANEL (모바일 상단 배치) -->
+    <div class="map-panel" id="map-panel">
+        <div class="map-header">
+            <span>🗺️ 여행지 지도</span>
+            <div class="map-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:#4f46e5;"></div>숙소</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#166534;"></div>명소</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div>식당</div>
+                <div class="legend-item"><div class="legend-dot" style="background:#db2777;"></div>카페</div>
+            </div>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <!-- LEFT PANEL: Timeline Itinerary -->
+    <div class="timeline-panel">
+
+        <!-- DAY 1 -->
+        <div class="day-section">
+            <div class="day-title">Day 1 | 09/27 (일) : 낙산사 탐방 ➔ 점심 ➔ 숙소 입실</div>
+            <div class="timeline">
+
+                <!-- 낙산사 -->
+                <div class="timeline-item">
+                    <div class="time">10:30 - 12:00</div>
+                    <div class="place-header">
+                        <span class="place-name">양양 낙산사</span>
+                        <span class="tag tag-spot">관광</span>
+                        <!--<span class="tag tag-spot">필수 일정</span>-->
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 06:00 ~ 17:30 (입장 마감)</div>
+                        <div class="info-row"><span class="badge-menu">📌 주요포인트</span> 동해 바다 전망, 해수관음상, 의상대, 홍련암 산책</div>
+                    </div>
+                    <div class="nav-group">
+                        <button class="btn btn-focus" onclick="focusMap(0)">📍 지도 연동</button>
+                        <a href="https://map.naver.com/p/search/%EC%96%91%EC%96%91%20%EB%82%99%EC%82%B0%EC%82%AC" target="_blank" rel="noopener noreferrer" class="btn btn-naver">🧭 네이버 길찾기</a>
+                    </div>
+                </div>
+
+                <!-- 점심 식사 -->
+                <div class="timeline-item">
+                    <div class="time">12:15 - 13:30</div>
+                    <div class="place-header">
+                        <span class="place-name">점심 식사 (낙산사 ➔ 숙소 이동 길목)</span>
+                        <span class="tag tag-food">식사</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><strong>[추천 1] 공가네감자옹심이 (양양시장)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍲 대표메뉴</span> 감자옹심이, 누룽지오징어순대</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 10:00 ~ 19:00 (Break 15:00~16:00)</div>
+                        <div class="nav-group" style="margin-bottom: 10px;">
+                            <button class="btn btn-focus" onclick="focusMap(1)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EA%B3%B5%EA%B0%80%EB%84%A4%EA%B0%90%EC%9E%90%EC%90%A5%EC%8B%EC%9D%B4" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[추천 2] 김영애할머니순두부 (숙소 근처)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍲 대표메뉴</span> 초당순두부정식</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 07:00 ~ 14:00 (재료 소진 시 마감)</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(2)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EA%B9%80%EC%98%81%EC%95%A0%ED%95%A0%EB%A0%88%EB%8B%88%EC%88%9C%EB%90%90%EB%B6%80" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 숙소 이동 및 입실 -->
+                <div class="timeline-item">
+                    <div class="time">13:30 - 15:00 (낙산사에서 차로 약 25분 소요)</div>
+                    <div class="place-header">
+                        <span class="place-name">소노펠리체 빌리지 델피노</span>
+                        <span class="tag tag-stay">숙소</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><span class="badge-time">⏰ 입/퇴실</span> <strong>입실 15:00 / 퇴실 11:00</strong></div>
+                        <div class="info-row"><span class="badge-menu">🛏️ 객실타입</span> 골드 설악마운틴 (침대/취사)</div>
+                        <div class="info-row">• 14:00 도착 후 번호표 배부 및 체크인 ➔ 15:00 입실</div>
+                    </div>
+                    <div class="nav-group">
+                        <button class="btn btn-focus" onclick="focusMap(3)">📍 지도 연동</button>
+                        <a href="https://map.naver.com/p/search/%EC%86%80%EB%85%B8%ED%8E%A0%EB%A6%AC%EC%B2%B4%20%EB%B9%8C%EB%A6%AC%EC%A2%80%20%EB%8D%B8%ED%94%BC%EB%86%88" target="_blank" class="btn btn-naver">🧭 네이버 길찾기</a>
+                    </div>
+                </div>
+
+                <!-- 카페 휴식 -->
+                <div class="timeline-item">
+                    <div class="time">15:30 - 17:00</div>
+                    <div class="place-header">
+                        <span class="place-name">더 엠브로시아 (소노펠리체 EAST 10F)</span>
+                        <span class="tag tag-cafe">카페</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 08:00 ~ 21:00</div>
+                        <div class="info-row"><span class="badge-menu">☕ 대표메뉴</span> 솔방울 라떼, 울산바위 판나코타</div>
+                        <div class="info-row">• 통창 너머 감상하는 압도적인 울산바위 파노라마 뷰</div>
+                    </div>
+                    <div class="nav-group">
+                        <button class="btn btn-focus" onclick="focusMap(4)">📍 지도 연동</button>
+                        <a href="https://map.naver.com/p/search/%EB%8D%B8%ED%94%BC%EB%86%88%20%EB%8D%94%EC%97%84%EB%B8%8C%EB%A1%9C%EC%8B%9C%EC%95%84" target="_blank" class="btn btn-naver">🧭 네이버 길찾기</a>
+                    </div>
+                </div>
+
+                <!-- 저녁 식사 및 포장 -->
+                <div class="timeline-item">
+                    <div class="time">17:30 - 19:30</div>
+                    <div class="place-header">
+                        <span class="place-name">저녁 식사 및 시장 포장</span>
+                        <span class="tag tag-food">식사/탐방</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><strong>[선택 1] 속초관광수산시장 (포장)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍱 대표메뉴</span> 닭강정, 오징어순대, 홍게 포장</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 08:00 ~ 21:00</div>
+                        <div class="nav-group" style="margin-bottom:10px;">
+                            <button class="btn btn-focus" onclick="focusMap(5)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%EA%B4%80%EA%B4%91%EC%88%98%EC%82%B0%EC%8B%9C%EC%9E%A5" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[선택 2] 옛날집 녹원갈비 (매장 식사)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🥩 대표메뉴</span> 돼지갈비(생/양념), 즉석 솥밥</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 11:30 ~ 20:30 (수요일 휴무)</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(6)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EB%83%89%EC%9B%90%EA%B0%88%EB%B9%84" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="day-section">
+            <div class="day-title">Day 2 | 09/28 (월) : 체크아웃 ➔ 속초 별미 ➔ 오션뷰 카페</div>
+            <div class="timeline">
+
+                <!-- 아침 식사 -->
+                <div class="timeline-item">
+                    <div class="time">08:30 - 10:00</div>
+                    <div class="place-header">
+                        <span class="place-name">아침 식사</span>
+                        <span class="tag tag-food">식사</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><strong>[추천 1] 그리운보리밥</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍲 대표메뉴</span> 청국장보리밥정식, 나물정식</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 08:00 ~ 15:30 (화요일 휴무)</div>
+                        <div class="nav-group" style="margin-bottom: 10px;">
+                            <button class="btn btn-focus" onclick="focusMap(7)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EA%B7%B8%EB%A6%AC%EC%9A%B4%EB%B3%B4%EB%A6%AC%EB%B0%A5" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[추천 2] 정든식당</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍜 대표메뉴</span> 장칼국수, 귀밀칼국수</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 10:00 ~ 19:00 (월요일 휴무)</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(8)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EC%A0%95%EB%93%A0%EC%8B%9C%EB%8B%B9" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 체크아웃 -->
+                <div class="timeline-item">
+                    <div class="time">10:00 - 11:00</div>
+                    <div class="place-header">
+                        <span class="place-name">체크아웃 (11:00 정시 퇴실)</span>
+                        <span class="tag tag-stay">퇴실</span>
+                    </div>
+                </div>
+
+                <!-- 점심 식사 -->
+                <div class="timeline-item">
+                    <div class="time">11:30 - 13:00</div>
+                    <div class="place-header">
+                        <span class="place-name">점심 식사</span>
+                        <span class="tag tag-food">식사</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><strong>[추천 1] 남경막국수</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍜 대표메뉴</span> 곤드레막국수, 들깨막국수</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 10:00 ~ 20:00</div>
+                        <div class="nav-group" style="margin-bottom: 10px;">
+                            <button class="btn btn-focus" onclick="focusMap(9)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EB%82%A8%EA%B2%BD%EB%A7%89%EA%B5%AD%EC%88%98" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[추천 2] 송도횟집 (송도물회)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🐟 대표메뉴</span> 참가자미 세꼬시 물회</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 09:00 ~ 21:00</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(10)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EC%86%A1%EB%8F%84%ED%9A%9F%EC%A7%91" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 카페 투어 및 귀가 -->
+                <div class="timeline-item">
+                    <div class="time">13:30 - 15:00</div>
+                    <div class="place-header">
+                        <span class="place-name">오션뷰 카페 및 귀가 준비</span>
+                        <span class="tag tag-cafe">카페</span>
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><strong>[선택 1] 바다정원 (고성)</strong></div>
+                        <div class="info-row"><span class="badge-menu">☕ 대표메뉴</span> 수제 베이커리, 카라멜쿠키</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 10:00 ~ 20:00</div>
+                        <div class="nav-group" style="margin-bottom: 10px;">
+                            <button class="btn btn-focus" onclick="focusMap(11)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EA%B3%B5%EC%84%B1%20%EB%B0%94%EB%8B%A4%EC%A0%95%EC%9B%90" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[선택 2] 칠성조선소 (속초)</strong></div>
+                        <div class="info-row"><span class="badge-menu">☕ 대표메뉴</span> 소금빵, 크림라떼</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 11:00 ~ 20:00</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(12)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%86%8D%EC%B4%88%20%EC%B1%80%EC%84%B1%EC%A1%B0%EC%84%A0%EC%86%8C" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Leaflet 지도 스크립트 -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // 숙소와 카페 좌표를 미세 분리하여 마커 겹침 방지
+    const locations = [
+        { name: "양양 낙산사", lat: 38.1251, lng: 128.6280, cat: "spot", desc: "동해 바다 전망 & 해수관음상" },
+        { name: "공가네감자옹심이", lat: 38.0754, lng: 128.6231, cat: "food", desc: "양양 대표 감자옹심이" },
+        { name: "김영애할머니순두부", lat: 38.2045, lng: 128.5385, cat: "food", desc: "속초 초당순두부정식" },
+        { name: "소노펠리체 빌리지 델피노", lat: 38.2098, lng: 128.5260, cat: "stay", desc: "🏠 숙소 (울산바위 뷰)" }, // 숙소 위치 조정
+        { name: "더 엠브로시아 카페", lat: 38.2112, lng: 128.5285, cat: "cafe", desc: "☕ EAST 10F 울산바위 뷰 카페" }, // 카페 위치 조정
+        { name: "속초관광수산시장", lat: 38.2045, lng: 128.5903, cat: "spot", desc: "닭강정, 오징어순대, 대게" },
+        { name: "옛날집 녹원갈비", lat: 38.2128, lng: 128.5828, cat: "food", desc: "돼지갈비 & 즉석 솥밥" },
+        { name: "그리운보리밥", lat: 38.2005, lng: 128.5721, cat: "food", desc: "청국장 보리밥 정식" },
+        { name: "정든식당", lat: 38.2078, lng: 128.5835, cat: "food", desc: "속초 원조 장칼국수" },
+        { name: "남경막국수", lat: 38.1906, lng: 128.6012, cat: "food", desc: "곤드레막국수 & 들깨막국수" },
+        { name: "송도횟집 (송도물회)", lat: 38.2065, lng: 128.5960, cat: "food", desc: "참가자미 세꼬시 물회" },
+        { name: "바다정원 (고성)", lat: 38.2419, lng: 128.5786, cat: "cafe", desc: "고성 오션뷰 대형 카페" },
+        { name: "칠성조선소", lat: 38.1963, lng: 128.5888, cat: "cafe", desc: "청초호변 레트로 카페" }
+    ];
+
+    const map = L.map('map');
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    function getPinColor(cat) {
+        if(cat === 'stay') return '#4f46e5'; // 숙소: 남보라색
+        if(cat === 'food') return '#d97706'; // 식당: 주황색
+        if(cat === 'spot') return '#166534'; // 명소: 초록색
+        if(cat === 'cafe') return '#db2777'; // 카페: 분홍색
+        return '#2563eb';
+    }
+
+    const markers = [];
+    const markerGroup = L.featureGroup();
+
+    locations.forEach((loc, index) => {
+        const color = getPinColor(loc.cat);
+        const isStay = loc.cat === 'stay';
+        
+        // 숙소 마커는 강조되도록 크기를 약간 크고 또렷하게 설정
+        const pinSize = isStay ? 22 : 16;
+        const anchorSize = pinSize / 2;
+        const borderWidth = isStay ? '3px' : '2px';
+        const shadow = isStay ? 'box-shadow: 0 0 10px rgba(79, 70, 229, 0.8);' : 'box-shadow: 0 2px 6px rgba(0,0,0,0.3);';
+
+        const customIcon = L.divIcon({
+            className: 'custom-pin',
+            html: `<div style="background-color: ${color}; width: ${pinSize}px; height: ${pinSize}px; border-radius: 50%; border: ${borderWidth} solid white; ${shadow}"></div>`,
+            iconSize: [pinSize, pinSize],
+            iconAnchor: [anchorSize, anchorSize]
+        });
+
+        const marker = L.marker([loc.lat, loc.lng], { 
+            icon: customIcon,
+            zIndexOffset: isStay ? 1000 : 0 // 숙소 마커가 가장 위 레이어로 오도록 설정
+        })
+        .bindPopup(`<b>${loc.name}</b><br><span style="font-size:0.85rem; color:#475569;">${loc.desc}</span>`);
+        
+        markers.push(marker);
+        markerGroup.addLayer(marker);
+    });
+
+    markerGroup.addTo(map);
+
+    // 모든 장소가 한 화면에 쏙 들어오도록 자동 영역 조정
+    map.fitBounds(markerGroup.getBounds().pad(0.15));
+
+    // 리사이즈 및 레이아웃 처리
+    setTimeout(() => {
+        map.invalidateSize();
+        map.fitBounds(markerGroup.getBounds().pad(0.15));
+    }, 200);
+
+    window.addEventListener('resize', () => {
+        map.invalidateSize();
+    });
+
+    function focusMap(index) {
+        const loc = locations[index];
+        map.setView([loc.lat, loc.lng], 15, { animate: true });
+        markers[index].openPopup();
+        
+        map.invalidateSize();
+
+        // 모바일 화면일 때 지도로 스크롤 자동 이동
+        if (window.innerWidth <= 900) {
+            document.getElementById('map-panel').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>
+
+</body>
+</html>
