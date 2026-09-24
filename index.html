@@ -286,32 +286,14 @@
 
         <!-- DAY 1 -->
         <div class="day-section">
-            <div class="day-title">Day 1 | 09/27 (일)<br/>낙산사 탐방 ➔ 점심 ➔ 숙소 입실</div>
+            <div class="day-title">Day 1 | 09/27 (일)<br/>점심 ➔ 낙산사 탐방 ➔ 숙소 입실</div>
             <div class="timeline">
-
-                <!-- 낙산사 -->
-                <div class="timeline-item">
-                    <div class="time">12:00 - 12:40</div>
-                    <div class="place-header">
-                        <span class="place-name">양양 낙산사</span>
-                        <span class="tag tag-spot">관광</span>
-                        <!--<span class="tag tag-spot">필수 일정</span>-->
-                    </div>
-                    <div class="details-box">
-                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 06:00 ~ 17:30 (입장 마감)</div>
-                        <div class="info-row"><span class="badge-menu">📌 주요포인트</span> 동해 바다 전망, 해수관음상, 의상대, 홍련암 산책</div>
-                    </div>
-                    <div class="nav-group">
-                        <button class="btn btn-focus" onclick="focusMap(0)">📍 지도 연동</button>
-                        <a href="https://map.naver.com/p/search/%EC%96%91%EC%96%91%20%EB%82%99%EC%82%B0%EC%82%AC" target="_blank" rel="noopener noreferrer" class="btn btn-naver">🧭 네이버 길찾기</a>
-                    </div>
-                </div>
 
                 <!-- 점심 식사 -->
                 <div class="timeline-item">
-                    <div class="time">13:00 - 14:00</div>
+                    <div class="time">12:00 - 12:40</div>
                     <div class="place-header">
-                        <span class="place-name">점심 식사 (낙산사 ➔ 숙소 이동 길목)</span>
+                        <span class="place-name">점심 식사 (낙산사 방문 전)</span>
                         <span class="tag tag-food">식사</span>
                     </div>
                     <div class="details-box">
@@ -330,6 +312,32 @@
                             <button class="btn btn-focus" onclick="focusMap(2)">📍 지도 연동</button>
                             <a href="https://map.naver.com/p/search/%EA%B9%80%EC%98%81%EC%95%A0%ED%95%A0%EB%A8%B8%EB%8B%88%EC%88%9C%EB%91%90%EB%B6%80" target="_blank" class="btn btn-naver">🧭 길찾기</a>
                         </div>
+                        <hr style="border:0; border-top:1px dashed #e2e8f0; margin:8px 0;">
+                        <div class="info-row"><strong>[추천 3] 실로암메밀국수 (낙산사 근처, 강현면)</strong></div>
+                        <div class="info-row"><span class="badge-menu">🍲 대표메뉴</span> 동치미메밀국수, 비빔메밀국수, 삶은돼지고기</div>
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 토·일 10:30 ~ 18:30 / 평일 10:30 ~ 17:00 (수요일 휴무)</div>
+                        <div class="nav-group">
+                            <button class="btn btn-focus" onclick="focusMap(13)">📍 지도 연동</button>
+                            <a href="https://map.naver.com/p/search/%EC%8B%A4%EB%A1%9C%EC%95%94%EB%A9%94%EB%B0%80%EA%B5%AD%EC%88%98" target="_blank" class="btn btn-naver">🧭 길찾기</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 낙산사 -->
+                <div class="timeline-item">
+                    <div class="time">13:00 - 14:00</div>
+                    <div class="place-header">
+                        <span class="place-name">양양 낙산사</span>
+                        <span class="tag tag-spot">관광</span>
+                        <!--<span class="tag tag-spot">필수 일정</span>-->
+                    </div>
+                    <div class="details-box">
+                        <div class="info-row"><span class="badge-time">⏰ 운영시간</span> 06:00 ~ 17:30 (입장 마감)</div>
+                        <div class="info-row"><span class="badge-menu">📌 주요포인트</span> 동해 바다 전망, 해수관음상, 의상대, 홍련암 산책</div>
+                    </div>
+                    <div class="nav-group">
+                        <button class="btn btn-focus" onclick="focusMap(0)">📍 지도 연동</button>
+                        <a href="https://map.naver.com/p/search/%EC%96%91%EC%96%91%20%EB%82%99%EC%82%B0%EC%82%AC" target="_blank" rel="noopener noreferrer" class="btn btn-naver">🧭 네이버 길찾기</a>
                     </div>
                 </div>
 
@@ -513,7 +521,8 @@
         { name: "남경막국수", lat: 38.1906, lng: 128.6012, cat: "food", desc: "곤드레막국수 & 들깨막국수" },
         { name: "송도횟집 (송도물회)", lat: 38.2065, lng: 128.5960, cat: "food", desc: "참가자미 세꼬시 물회" },
         { name: "바다정원 (고성)", lat: 38.2419, lng: 128.5786, cat: "cafe", desc: "고성 오션뷰 대형 카페" },
-        { name: "칠성조선소", lat: 38.1963, lng: 128.5888, cat: "cafe", desc: "청초호변 레트로 카페" }
+        { name: "칠성조선소", lat: 38.1963, lng: 128.5888, cat: "cafe", desc: "청초호변 레트로 카페" },
+        { name: "실로암메밀국수", lat: 38.1195, lng: 128.6040, cat: "food", desc: "60년 전통 동치미 메밀국수" } // 좌표 근사값 (강현면 장산3길 17)
     ];
 
     const map = L.map('map');
